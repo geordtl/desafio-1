@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oops...</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter&family=Poppins&display=swap');
+        html {
+            height: 100%;
+            width: 100%;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            height: 100%;
+        }
+        .d-flex {
+            display: flex;
+        }
+        .align-center {
+            align-items: center;
+            justify-items: center;
+        }
+        .row {
+            flex-direction: row;
+        }
+        .column {
+            flex-direction: column;
+        }
+        .wrap {
+            flex-wrap: wrap;
+        }
+        .texts {
+            text-align: center;
+        }
+        .title-h2 {
+            font-size: 28px;
+            font-weight: bolder;
+            margin-bottom: 0;
+        }
+        .button-keep {
+            cursor: pointer;
+            width: 150px;
+            height: 37px;
+            color: white;
+            font-weight: 700;
+            border: none;
+            border-radius: 4px;
+            background-color: rgb(0, 195, 255);
+            transition: 0.5s;
+        }
+        .button-keep:hover {
+            background-color: rgb(65, 211, 255);
+        }
+        .cancel-button {
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+            color: rgb(0, 85, 255);
+        }
+        .cancel-button::before{
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 2px;
+            margin-top: 15px;
+            background-color: rgb(0, 85, 255);
+            visibility: hidden;
+            -webkit-transform: scaleX(0);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: all 0.3s linear 0s;
+        }
+        .cancel-button:hover:before {
+            visibility: visible;
+            transform: scaleX(1);
+            transform-origin: right;
+            -webkit-transform: scaleX(1);
+        }
+    </style>
+  </head>
+  <body>
+    <head>
+        <img src="https://play-lh.googleusercontent.com/-iOkVIznN-HixeyifLUsZvNalDramtdRzPoisEzrHFy25S6cVykeYUd9kj5c3zuhCb8=w240-h480-rw" style="width: 70px">
+      <!-- lottie -->
+    </head>
+    <main class="d-flex align-center column">
+        <section id="texts" class="texts">
+        </section>
+
+        <section id="actions">
+            <button onclick="keep()" id="keep" class="button-keep">Manter inscrição</button>
+            <button id="cancel" onclick="cancel()" class="cancel-button">Desinscrever-se</button>
+        </section>
+    </main>
+
+    <script>
+        // ! receber praca_id e ambiente por parâmetro
+        let container = document.getElementById("texts");
+        let title = document.createElement("h2");
+        let subtitle = document.createElement("p");
+        let btn_cancel = document.getElementById("cancel");
+        let button_keep = document.getElementById("keep");
+
+        title.className = "title-h2";
+        title.textContent = "Você tem certeza que deseja desinscrever-se?";
+        subtitle.textContent = "Ao cancelar a sua inscrição, você perderá notificações e e-mails sobre as nossas novidades.";
+        container.appendChild(title);
+        container.appendChild(subtitle);
+        
+        function keep(){
+            btn_cancel.style.display = "none";
+            changeLabel(title, "Ótima escolha!");
+            changeLabel(subtitle, "Você continuará recebendo nossos avisos.");
+            changeLabel(button_keep, "Voltar");
+        }
+
+        function cancel(){
+            // implementar requisição
+            button_keep.style.display = "none";
+            changeLabel(title, "Inscrição cancelada");
+            changeLabel(subtitle, "Uma pena, volte quando precisar.");
+            changeLabel(btn_cancel, "Voltar");
+        }
+
+        function changeLabel(element, text){
+            element.textContent = text;
+            container.appendChild(element);
+        }
+
+    </script>
+  </body>
+</html>
