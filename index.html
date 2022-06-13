@@ -123,7 +123,8 @@
         const params = new URLSearchParams(window.location.search);
         let praca_id = params.get('praca_id');
         for(param of params){
-            console.log(param);
+            // para cada parâmetro, são duas posições no array (uma pra chave e outro pro valor)
+            // implementar essa lógica quando o endpoint estiver pronto
         }
         let publikDomain = false;
         let sortela = 6;
@@ -159,8 +160,8 @@
             let cancel_lottie = document.getElementById('lottie-cancel');
             let head = document.getElementById("head");
             success_lottie.style.display = "block";
-            btn_continuar.style.display = "none";
             cancel_lottie.style.display = "none";
+            btn_continuar.style.display = "none";
             btn_cancelar.style.display = "none";
             head.appendChild(success_lottie);
             changeLabel(titulo, "Ótima escolha!");
@@ -179,7 +180,6 @@
             element.textContent = text;
             container.appendChild(element);
         }
-
     </script>
   </body>
 </html>
