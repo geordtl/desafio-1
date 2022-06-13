@@ -17,12 +17,16 @@
             color: #333;
             height: 100%;
         }
+        .head {
+          width: 100%;
+          height: 400px;
+        }
         .d-flex {
             display: flex;
         }
         .align-center {
             align-items: center;
-            justify-items: center;
+            justify-content: center;
         }
         .row {
             flex-direction: row;
@@ -44,7 +48,7 @@
         .button-keep {
             cursor: pointer;
             width: 150px;
-            height: 37px;
+            height: 40px;
             color: white;
             font-weight: 700;
             border: none;
@@ -84,7 +88,10 @@
   </head>
   <body>
     <head>
-        <img src="https://play-lh.googleusercontent.com/-iOkVIznN-HixeyifLUsZvNalDramtdRzPoisEzrHFy25S6cVykeYUd9kj5c3zuhCb8=w240-h480-rw" style="width: 70px">
+      <div class="head d-flex align-center column" id="head">
+        <img src="https://play-lh.googleusercontent.com/-iOkVIznN-HixeyifLUsZvNalDramtdRzPoisEzrHFy25S6cVykeYUd9kj5c3zuhCb8=w240-h480-rw" style="width: 70px;">
+        <lottie-player id="lottie-file" src="https://assets4.lottiefiles.com/packages/lf20_wgujjcov.json"  background="transparent"  speed="1"  style="width: 600px; height: 400px" loop autoplay></lottie-player>
+      </div>
       <!-- lottie -->
     </head>
     <main class="d-flex align-center column">
@@ -96,8 +103,23 @@
             <button id="cancel" onclick="cancel()" class="cancel-button">Desinscrever-se</button>
         </section>
     </main>
-
+    
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script>
+        const params = new URLSearchParams(window.location.search);
+        let sortela = 6;
+        let publikDomain = false;
+        let praca_id = 8;
+        let servidor = `https://api${sortela}.playservicos.com.br:2083`;
+        if(publikDomain){
+            servidor = `https://api20.publikcomunicacao.com.br:2083`;
+        }
+        const endpoint = `/v2/pracas/?praca_id=${praca_id}`;
+        let base_url = `${servidor}${endpoint}`;
+
+        for(const param of params){
+          console.log(param);
+        }
         // ! receber praca_id e ambiente por parâmetro
         let container = document.getElementById("texts");
         let title = document.createElement("h2");
@@ -112,6 +134,11 @@
         container.appendChild(subtitle);
         
         function keep(){
+            let lottie = document.createElement('lottie-player');
+            let head = document.getElementById("head");
+            lottie.src = 'https://assets9.lottiefiles.com/packages/lf20_w6letfrp.json';
+            head.appendChild(lottie);
+            console.log(lottie);
             btn_cancel.style.display = "none";
             changeLabel(title, "Ótima escolha!");
             changeLabel(subtitle, "Você continuará recebendo nossos avisos.");
