@@ -7,14 +7,18 @@
     <title>Oops...</title>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter&family=Poppins&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400&family=Manrope:wght@800&family=Nunito:wght@200;300&family=Poppins:wght@400;700&family=Roboto:wght@700&display=swap');
+        :root {
+          --primaryColor: rgb(0, 195, 255);
+          --secondColor: rgb(58, 209, 255);
+        }
         html {
             height: 100%;
             width: 100%;
         }
         body {
             font-family: 'Poppins', sans-serif;
-            color: #333;
+            color: rgb(63, 63, 63);
             height: 100%;
         }
         .head {
@@ -37,15 +41,15 @@
         .wrap {
             flex-wrap: wrap;
         }
-        .texts {
+        .textos {
             text-align: center;
         }
-        .title-h2 {
+        .titulo-h2 {
             font-size: 28px;
             font-weight: bolder;
             margin-bottom: 0;
         }
-        .button-keep {
+        .continuar-btn {
             cursor: pointer;
             width: 150px;
             height: 40px;
@@ -53,35 +57,36 @@
             font-weight: 700;
             border: none;
             border-radius: 4px;
-            background-color: rgb(0, 195, 255);
+            background-color: var(--primaryColor);
             transition: 0.5s;
         }
-        .button-keep:hover {
-            background-color: rgb(65, 211, 255);
+        .continuar-btn:hover {
+            background-color: var(--secondColor);
         }
-        .cancel-button {
+        .cancelar-btn {
+            margin-left: 15px;
             cursor: pointer;
             border: none;
             background-color: transparent;
-            color: rgb(0, 85, 255);
+            color: var(--primaryColor);
         }
-        .cancel-button::before{
+        .cancelar-btn::before{
             content: "";
             position: absolute;
             width: 100px;
             height: 2px;
             margin-top: 15px;
-            background-color: rgb(0, 85, 255);
+            background-color: var(--primaryColor);
             visibility: hidden;
             -webkit-transform: scaleX(0);
             transform: scaleX(0);
-            transform-origin: left;
-            transition: all 0.3s linear 0s;
+            transform-origin: right;
+            transition: transform 0.47s;
         }
-        .cancel-button:hover:before {
+        .cancelar-btn:hover:before {
             visibility: visible;
             transform: scaleX(1);
-            transform-origin: right;
+             transform-origin: left;
             -webkit-transform: scaleX(1);
         }
     </style>
@@ -89,27 +94,35 @@
   <body>
     <head>
       <div class="head d-flex align-center column" id="head">
-        <img src="https://play-lh.googleusercontent.com/-iOkVIznN-HixeyifLUsZvNalDramtdRzPoisEzrHFy25S6cVykeYUd9kj5c3zuhCb8=w240-h480-rw" style="width: 70px;">
-        <lottie-player id="lottie-file" src="https://assets4.lottiefiles.com/packages/lf20_wgujjcov.json"  background="transparent"  speed="1"  style="width: 600px; height: 400px" loop autoplay></lottie-player>
+        <div id="img_cliente"></div>
+        <lottie-player id="lottie-cancel" src="https://assets4.lottiefiles.com/packages/lf20_wgujjcov.json"  background="transparent"  speed="1.3"  style="width: 600px; height: 400px" loop autoplay></lottie-player>
+        <lottie-player id="lottie-success" src="https://assets9.lottiefiles.com/packages/lf20_w6letfrp.json"  background="transparent"  speed="1.3"  style="display: none; width: 600px; height: 400px" loop autoplay></lottie-player>
       </div>
-      <!-- lottie -->
     </head>
     <main class="d-flex align-center column">
-        <section id="texts" class="texts">
+        <section id="textos" class="textos">
         </section>
 
-        <section id="actions">
-            <button onclick="keep()" id="keep" class="button-keep">Manter inscrição</button>
-            <button id="cancel" onclick="cancel()" class="cancel-button">Desinscrever-se</button>
+        <section id="actions" class="d-flex row align-center wrap">
+            <button onclick="manterInscricao()" id="continuar" class="continuar-btn">Manter inscrição</button>
+            <div id="cancelar">
+                <button onclick="cancelarInscricao()" class="cancelar-btn">
+                    Desinscrever-se
+                    <img src="./assets/seta-direita.png" style="width: 13px; position: absolute; margin-top: 2px; margin-left: 5px;">
+                </button>
+            </div>
         </section>
     </main>
     
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script>
         const params = new URLSearchParams(window.location.search);
-        let sortela = 6;
+        let praca_id = params.get('praca_id');
+        for(param of params){
+            console.log(param);
+        }
         let publikDomain = false;
-        let praca_id = 8;
+        let sortela = 6;
         let servidor = `https://api${sortela}.playservicos.com.br:2083`;
         if(publikDomain){
             servidor = `https://api20.publikcomunicacao.com.br:2083`;
@@ -117,40 +130,45 @@
         const endpoint = `/v2/pracas/?praca_id=${praca_id}`;
         let base_url = `${servidor}${endpoint}`;
 
-        for(const param of params){
-          console.log(param);
-        }
-        // ! receber praca_id e ambiente por parâmetro
-        let container = document.getElementById("texts");
-        let title = document.createElement("h2");
-        let subtitle = document.createElement("p");
-        let btn_cancel = document.getElementById("cancel");
-        let button_keep = document.getElementById("keep");
-
-        title.className = "title-h2";
-        title.textContent = "Você tem certeza que deseja desinscrever-se?";
-        subtitle.textContent = "Ao cancelar a sua inscrição, você perderá notificações e e-mails sobre as nossas novidades.";
-        container.appendChild(title);
-        container.appendChild(subtitle);
+        let container = document.getElementById("textos");
+        let titulo = document.createElement("h2");
+        let subtitulo = document.createElement("p");
+        let btn_cancelar = document.getElementById("cancelar");
+        let btn_continuar = document.getElementById("continuar");
         
-        function keep(){
-            let lottie = document.createElement('lottie-player');
+        titulo.className = "titulo-h2";
+        titulo.textContent = "Você tem certeza que deseja cancelar sua inscrição?";
+        subtitulo.textContent = "Ao desativá-la, você perderá notificações e e-mails sobre as nossas atualizações.";
+        container.append(titulo, subtitulo);
+        buscarImagemApi()
+        
+        function buscarImagemApi(){
+            let container = document.getElementById("img_cliente");
+            let img = document.createElement("img");
+            img.src = "https://play-lh.googleusercontent.com/-iOkVIznN-HixeyifLUsZvNalDramtdRzPoisEzrHFy25S6cVykeYUd9kj5c3zuhCb8=w240-h480-rw";
+            img.style.width = "70px";
+            container.appendChild(img)
+        }
+        
+        function manterInscricao(){
+            let success_lottie = document.getElementById('lottie-success');
+            let cancel_lottie = document.getElementById('lottie-cancel');
             let head = document.getElementById("head");
-            lottie.src = 'https://assets9.lottiefiles.com/packages/lf20_w6letfrp.json';
-            head.appendChild(lottie);
-            console.log(lottie);
-            btn_cancel.style.display = "none";
-            changeLabel(title, "Ótima escolha!");
-            changeLabel(subtitle, "Você continuará recebendo nossos avisos.");
-            changeLabel(button_keep, "Voltar");
+            success_lottie.style.display = "block";
+            btn_continuar.style.display = "none";
+            cancel_lottie.style.display = "none";
+            btn_cancelar.style.display = "none";
+            head.appendChild(success_lottie);
+            changeLabel(titulo, "Ótima escolha!");
+            changeLabel(subtitulo, "Você continuará recebendo nossas novidades.");
         }
 
-        function cancel(){
+        function cancelarInscricao(){
             // implementar requisição
-            button_keep.style.display = "none";
-            changeLabel(title, "Inscrição cancelada");
-            changeLabel(subtitle, "Uma pena, volte quando precisar.");
-            changeLabel(btn_cancel, "Voltar");
+            btn_continuar.style.display = "none";
+            btn_cancelar.style.display = "none";
+            changeLabel(titulo, "Inscrição cancelada.");
+            changeLabel(subtitulo, "Você não receberá mais e-mails ou SMS.");
         }
 
         function changeLabel(element, text){
