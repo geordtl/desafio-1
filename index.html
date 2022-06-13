@@ -164,19 +164,19 @@
             btn_continuar.style.display = "none";
             btn_cancelar.style.display = "none";
             head.appendChild(success_lottie);
-            changeLabel(titulo, "Ótima escolha!");
-            changeLabel(subtitulo, "Você continuará recebendo nossas novidades.");
+            mudarLabel(titulo, "Ótima escolha!");
+            mudarLabel(subtitulo, "Você continuará recebendo nossas novidades.");
         }
 
         function cancelarInscricao(){
             // implementar requisição
             btn_continuar.style.display = "none";
             btn_cancelar.style.display = "none";
-            changeLabel(titulo, "Inscrição cancelada.");
-            changeLabel(subtitulo, "Você não receberá mais e-mails ou SMS.");
+            mudarLabel(titulo, "Inscrição cancelada.");
+            mudarLabel(subtitulo, "Você não receberá mais e-mails ou SMS.");
         }
 
-        function changeLabel(element, text){
+        function mudarLabel(element, text){
             element.textContent = text;
             container.appendChild(element);
         }
